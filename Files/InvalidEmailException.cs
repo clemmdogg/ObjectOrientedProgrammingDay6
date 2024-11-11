@@ -9,4 +9,5 @@ namespace ObjectOrientedProgrammingDay6.Files;
 internal class InvalidEmailException : Exception
 {
     public InvalidEmailException(string message) : base(message) { }
+    public InvalidEmailException(string message, Exception inner) : base(message, inner) { }
 }

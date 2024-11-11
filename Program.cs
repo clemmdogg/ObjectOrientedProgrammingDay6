@@ -80,17 +80,20 @@ catch (Exception ex4)
 Console.Write("Indtast alder: ");
 try
 {
-    age = int.Parse(Console.ReadLine());
-    if (age < 18 || age > 50)
+    if (!(int.TryParse(Console.ReadLine(), out age)) || (!(age >= 18 && age <= 50)))
         throw new InvalidAgeException("Alder skal være mellem 18 og 50!!");
 }
 catch (InvalidAgeException ex5) when (!(firstName.ToLower() == "niels" && lastName.ToLower() == "olesen"))
 {
     Console.WriteLine($"Fejl: {ex5}");
     isMatchingTheConditions = false;
-    Console.ReadKey();
 }
-catch (Exception ex6)
+catch (InvalidOperationException ex6)
+{
+    Console.WriteLine($"Fejl: {ex6}");
+    isMatchingTheConditions = false;
+}
+catch (Exception)
 {
     Console.WriteLine($"Fordi det er dig, Niels, så får den lov at passere!!");
 }
@@ -104,7 +107,7 @@ try
 }
 catch (InvalidEmailException ex7)
 {
-    Console.WriteLine($"Fejl: {ex7}");
+    Console.WriteLine($"Fejl: {ex7.Message}");
     isMatchingTheConditions = false;
 }
 catch (Exception ex8)
@@ -112,21 +115,29 @@ catch (Exception ex8)
     Console.WriteLine($"Fejl: {ex8}");
     isMatchingTheConditions = false;
 }
+string binDirectory = AppDomain.CurrentDomain.BaseDirectory;
+string projectRootDirectory = Path.GetFullPath(Path.Combine(binDirectory, @"..\..\..\"));
+string usersFilePath = Path.Combine(projectRootDirectory, "Files", "Users.txt");
+
 if (isMatchingTheConditions)
 {
     User newUser = new User(firstName, lastName, age, email);
-    string binDirectory = AppDomain.CurrentDomain.BaseDirectory;
-    string projectRootDirectory = Path.GetFullPath(Path.Combine(binDirectory, @"..\..\..\"));
-    string usersFilePath = Path.Combine(projectRootDirectory, "Files", "Users.txt");
-    try
+    if (File.Exists(usersFilePath))
     {
         File.AppendAllText(usersFilePath, $"{newUser.FirstName}, {newUser.LastName}, {newUser.Age}, {newUser.Email}" + Environment.NewLine);
     }
-    catch
+    else
     {
         Console.WriteLine("Filen blev ikke fundet. Ny er oprettet!!");
         using (FileStream fs = File.Create(usersFilePath)) { }
         File.AppendAllText(usersFilePath, $"{newUser.FirstName}, {newUser.LastName}, {newUser.Age}, {newUser.Email}" + Environment.NewLine);
     }
 }
+Console.WriteLine("-----------------------");
+Console.WriteLine("Her er alle brugere:");
+if (File.Exists(usersFilePath))
+    {
+    Console.WriteLine(File.ReadAllText(usersFilePath)); }
+Console.WriteLine("-----------------------");
+Console.WriteLine("Programmet er afsluttet!!");
 
