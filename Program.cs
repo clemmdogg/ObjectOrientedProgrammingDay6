@@ -103,11 +103,15 @@ try
 {
     email = Console.ReadLine();
     if (email == null || email.Length == 0 || !email.Contains("@") || !email.Contains("."))
-        throw new InvalidEmailException("Email må ikke være tomt og skal indeholde @ og .!!");
+    {
+        ArgumentException innerEx = new ArgumentException("Email er ikke korrekt formateret.");
+        throw new InvalidEmailException("Email må ikke være tomt og skal indeholde @ og .!!", innerEx);
+    }
 }
-catch (InvalidEmailException ex7)
+catch (InvalidEmailException innerEx)
 {
-    Console.WriteLine($"Fejl: {ex7.Message}");
+    Console.WriteLine($"Inner exception: {innerEx.InnerException}");
+    Console.WriteLine($"Custom message exception: {innerEx.Message}");
     isMatchingTheConditions = false;
 }
 catch (Exception ex8)
