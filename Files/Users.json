@@ -1,0 +1,26 @@
+[
+  {
+    "FirstName": "Niels",
+    "LastName": "Olesen",
+    "Age": 53,
+    "Email": "en@tec.dk"
+  },
+  {
+    "FirstName": "Casper",
+    "LastName": "Clem",
+    "Age": 41,
+    "Email": "hdkf@gmail.com"
+  },
+  {
+    "FirstName": "\u00C5ge",
+    "LastName": "Claussen",
+    "Age": 45,
+    "Email": "sgdfh@tec.dk"
+  },
+  {
+    "FirstName": "Mette",
+    "LastName": "Frederiksen",
+    "Age": 46,
+    "Email": "gjsdf@mette.dk"
+  }
+]
